@@ -30,44 +30,13 @@ python -m plane
 
 ## 配置
 
-在项目根目录创建 `.env`（可直接复制 `.env.example`），选择要使用的模型后端并填入密钥。
-
-配置优先级：
+复制 `.env.example` 为 `.env`，选一个模型后端填入密钥。配置优先级：
 
 ```text
 显式 CLI 参数 > .env 中的 PLANE_* 变量 > 同名旧环境变量 > 代码默认值
 ```
 
-### provider 是怎么选出来的
-
-不指定 `--provider` 时，plane 按下面顺序决定后端：
-
-1. `--provider`（显式指定，优先级最高）
-2. `.env` 或环境变量里的 `PLANE_PROVIDER`
-3. 从已配置的凭据自动推断：`openai` → `anthropic` → `deepseek`
-4. 都没有时回退到 `deepseek`
-
-自动推断结果会写到 stderr，例如 `[plane] provider=openai (auto-detected from credentials)`；stdout 只保留模型回答本身，方便管道与脚本使用。想固定后端，在 `.env` 里写 `PLANE_PROVIDER=openai` 即可。
-
-`ollama` 没有凭据可供推断，必须显式 `--provider ollama`。
-
-### 配置从哪里来
-
-不需要给每个被处理的文件夹都放配置文件。按优先级从高到低：
-
-```text
-显式 CLI 参数
-> plane 自己的配置：plane 安装目录下的 .env，或 ~/.plane/.env
-> shell / 系统环境变量
-> 代码默认值
-```
-
-也就是说：把 key 放在 **plane 自己的 `.env`** 里，之后无论 `--cwd` 指向哪个文件夹都能直接用。
-想指定别的配置文件位置，设置 `PLANE_CONFIG_FILE=<路径>`；把它指向不存在的路径即可关闭全局配置。
-
-**工作目录里的 `.env` 会被完全忽略。** 那是被处理项目自己的应用配置（里面可能有它自己的
-`OPENAI_API_KEY`、数据库地址等），plane 不会读它，也不会拿它当自己的模型配置。
-需要给某个项目单独指定 plane 配置时，用 `PLANE_CONFIG_FILE=<该项目的 plane 配置>`。
+`.env` 放在 plane 自己的目录里（安装目录或 `~/.plane/.env`）即可，不需要给每个被处理的文件夹都放配置文件；想指定别的位置就设置 `PLANE_CONFIG_FILE=<路径>`。
 
 各后端对应的变量：
 
@@ -141,7 +110,6 @@ plane --max-steps 20                               # 放宽单次请求的工具
 pytest tests -q
 ruff check plane tests scripts
 ```
-
 
 ## 更多文档
 
