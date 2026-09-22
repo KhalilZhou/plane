@@ -111,6 +111,18 @@ pytest tests -q
 ruff check plane tests scripts
 ```
 
+一键跑评测并生成按模块组织的指标报告（离线执行，不调用真实大模型）：
+
+```bash
+python scripts/measure_all.py                       # 完整：pytest + 四组消融 + 安全套件
+python scripts/measure_all.py --skip-tests --repetitions 1   # 快速版（约 1 分钟）
+```
+
+跑完在 `docs/metrics/module-metrics.md` 查看各模块指标（通过率、prompt 压缩率、重复读取次数、
+恢复成功率、误接受率、安全拦截分布），`docs/metrics/plane-benchmark-core-report.md` 是核心报告汇总，
+原始产物在 `artifacts/`（已在 .gitignore 中忽略）。
+```
+
 ## 更多文档
 
 README 只覆盖安装、配置与日常使用；下面两篇是本仓库的正式说明文档：

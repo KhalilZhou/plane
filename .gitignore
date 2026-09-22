@@ -46,5 +46,10 @@ docs/*
 !docs/architecture/
 !docs/architecture/agent-harness-v1-overview.md
 
+# 评测报告：允许随仓库分发（原始产物 artifacts/ 仍然忽略）
+!docs/metrics/
+!docs/metrics/module-metrics.md
+!docs/metrics/plane-benchmark-core-report.md
+
 # OS files
 .DS_Store
